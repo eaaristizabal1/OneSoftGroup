@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import udea.edu.main.modelos.Empresa;
 
-@RestController
+//@RestController
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class Ciclo3Application {
 
