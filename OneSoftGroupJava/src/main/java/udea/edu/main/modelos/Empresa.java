@@ -1,21 +1,35 @@
-package udea.edu.main.model;
+package udea.edu.main.modelos;
 
+import javax.persistence.*;
 
-
+@Entity
+@Table(name="Empresa")
 public class Empresa {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private  int id;
     private String nombre;
     private String direccion;
-    private int telefono;
+    private String telefono;
     private String NIT;
 
-    public Empresa() {
+    public Empresa(){
+
     }
 
-    public Empresa(String nombre, String direccion, int telefono, String NIT) {
+    public Empresa(String nombre, String direccion, String telefono, String NIT) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
         this.NIT = NIT;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -34,11 +48,11 @@ public class Empresa {
         this.direccion = direccion;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
