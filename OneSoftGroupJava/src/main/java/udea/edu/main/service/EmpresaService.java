@@ -3,6 +3,7 @@ package udea.edu.main.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import udea.edu.main.modelos.Empleado;
 import udea.edu.main.modelos.Empresa;
 import udea.edu.main.repo.EmpresaRepository;
 

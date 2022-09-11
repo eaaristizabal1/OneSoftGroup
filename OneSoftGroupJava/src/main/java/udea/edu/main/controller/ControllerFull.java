@@ -9,7 +9,7 @@ import udea.edu.main.service.EmpresaService;
 
 import java.util.List;
 
-@Controller
+
 public class ControllerFull {
     @Autowired
     EmpresaService empresaService;
