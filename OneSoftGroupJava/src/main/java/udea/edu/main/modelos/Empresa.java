@@ -24,6 +24,7 @@ public class Empresa {
         this.NIT = NIT;
     }
 
+
     public int getId() {
         return id;
     }
