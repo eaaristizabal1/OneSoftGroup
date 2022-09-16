@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,87 +28,47 @@ public class ControlerMovimientosDinero {
     EmpleadoService empleadoService;
 
 
-    @RequestMapping("/VerMovimientos")
-    public String viewMovimientos(@RequestParam(value="pagina", required=false, defaultValue = "1") int NumeroPagina,
-                                  @RequestParam(value="medida", required=false, defaultValue = "5") int medida,
-                                  Model model, @ModelAttribute("mensaje") String mensaje){
-        Page<MovimientoDinero> paginaMovimientos= movimientosRepositor.findAll(PageRequest.of(NumeroPagina,medida));
-        model.addAttribute("movlist",paginaMovimientos.getContent());
-        model.addAttribute("paginas",new int[paginaMovimientos.getTotalPages()]);
-        model.addAttribute("paginaActual", NumeroPagina);
-        model.addAttribute("mensaje",mensaje);
-        Long sumaMonto=movimientosService.obtenerSumaMontos();
-        model.addAttribute("SumaMontos",sumaMonto);
-        return "verMovimientos";
+    @GetMapping("/movimientos") //Consultar todos los movimientos
+    public List<MovimientoDinero> verMovimientos(){
+        return movimientosService.getAllMovimientos();
     }
 
-    @GetMapping("/AgregarMovimiento")
-    public String nuevoMovimiento(Model model, @ModelAttribute("mensaje") String mensaje){
-        MovimientoDinero movimiento= new MovimientoDinero();
-        model.addAttribute("mov",movimiento);
-        model.addAttribute("mensaje",mensaje);
-        List<Empleado> listaEmpleados= empleadoService.getAllEmpleado();
-        model.addAttribute("emplelist",listaEmpleados);
-        return "agregarMovimiento";
+    @PostMapping("/movimientos")
+    public MovimientoDinero guardarMovimiento(@RequestBody MovimientoDinero movimiento){
+        return movimientosService.saveOrUpdateMovimiento(movimiento);
     }
 
-    @PostMapping("/GuardarMovimiento")
-    public String guardarMovimiento(MovimientoDinero mov, RedirectAttributes redirectAttributes){
-        if(movimientosService.saveOrUpdateMovimiento(mov)){
-            redirectAttributes.addFlashAttribute("mensaje","saveOK");
-            return "redirect:/VerMovimientos";
-        }
-        redirectAttributes.addFlashAttribute("mensaje","saveError");
-        return "redirect:/AgregarMovimiento";
+    @GetMapping("/movimientos/{id}") //Consultar movimiento por id
+    public MovimientoDinero movimientoPorId(@PathVariable("id") Integer id){
+        return movimientosService.getMovimientoById(id);
     }
 
-    @GetMapping("/EditarMovimiento/{id}")
-    public String editarMovimento(Model model, @PathVariable Integer id, @ModelAttribute("mensaje") String mensaje){
+    @PatchMapping("/movimientos/{id}")//Editar o actualizar un movimiento
+    public MovimientoDinero actualizarMovimiento(@PathVariable("id") Integer id, @RequestBody MovimientoDinero movimiento){
         MovimientoDinero mov=movimientosService.getMovimientoById(id);
-
-        model.addAttribute("mov",mov);
-        model.addAttribute("mensaje", mensaje);
-        List<Empleado> listaEmpleados= empleadoService.getAllEmpleado();
-        model.addAttribute("emplelist",listaEmpleados);
-        return "editarMovimiento";
+        mov.setConcepto(movimiento.getConcepto());
+        mov.setMonto(movimiento.getMonto());
+        mov.setUsuario(movimiento.getUsuario());
+        return movimientosService.saveOrUpdateMovimiento(mov);
     }
 
-    @PostMapping("/ActualizarMovimiento")
-    public String updateMovimiento(@ModelAttribute("mov") MovimientoDinero mov, RedirectAttributes redirectAttributes){
-        if(movimientosService.saveOrUpdateMovimiento(mov)){
-            redirectAttributes.addFlashAttribute("mensaje","updateOK");
-            return "redirect:/VerMovimientos";
+    @DeleteMapping("/movimientos/{id}")
+    public String deleteMovimiento(@PathVariable("id") Integer id){
+        boolean respuesta= movimientosService.deleteMovimiento(id);
+        if (respuesta){
+            return "Se elimino correctamente el movimiento con id " +id;
         }
-        redirectAttributes.addFlashAttribute("mensaje","updateError");
-        return "redirect:/EditarMovimiemto/"+mov.getId();
-
+        return "No se pudo eliminar el movimiento con id "+id;
     }
 
-    @GetMapping("/EliminarMovimiento/{id}")
-    public String eliminarMovimiento(@PathVariable Integer id, RedirectAttributes redirectAttributes){
-        if (movimientosService.deleteMovimiento(id)){
-            redirectAttributes.addFlashAttribute("mensaje","deleteOK");
-            return "redirect:/VerMovimientos";
-        }
-        redirectAttributes.addFlashAttribute("mensaje", "deleteError");
-        return "redirect:/VerMovimientos";
+    @GetMapping("/empleados/{id}/movimientos")
+    public ArrayList<MovimientoDinero> movimientosPorEmpleado(@PathVariable("id") Integer id){
+        return movimientosService.obtenerPorEmpleado(id);
     }
 
-    @GetMapping("/Empleado/{id}/Movimientos")
-    public String movimientosPorEmpleado(@PathVariable("id")Integer id, Model model){
-        List<MovimientoDinero> movlist = movimientosService.obtenerPorEmpleado(id);
-        model.addAttribute("movlist",movlist);
-        Long sumaMonto=movimientosService.MontosPorEmpleado(id);
-        model.addAttribute("SumaMontos",sumaMonto);
-        return "verMovimientos"; //Llamamos al HTML
+    @GetMapping("/enterprises/{id}/movimientos")
+    public ArrayList<MovimientoDinero> movimientosPorEmpresa(@PathVariable("id") Integer id){
+        return movimientosService.obtenerPorEmpresa(id);
     }
 
-    @GetMapping("/Empresa/{id}/Movimientos")
-    public String movimientosPorEmpresa(@PathVariable("id")Integer id, Model model){
-        List<MovimientoDinero> movlist = movimientosService.obtenerPorEmpresa(id);
-        model.addAttribute("movlist",movlist);
-        Long sumaMonto=movimientosService.MontosPorEmpresa(id);
-        model.addAttribute("SumaMontos",sumaMonto);
-        return "verMovimientos";
-    }
 }

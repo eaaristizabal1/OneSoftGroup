@@ -23,12 +23,9 @@ public class MovimientosService {
         return movimientosRepository.findById(id).get();
     }
 
-    public boolean saveOrUpdateMovimiento(MovimientoDinero movimientoDinero){
+    public MovimientoDinero saveOrUpdateMovimiento(MovimientoDinero movimientoDinero){
         MovimientoDinero mov=movimientosRepository.save(movimientoDinero);
-        if (movimientosRepository.findById(mov.getId())!=null){
-            return true;
-        }
-        return false;
+        return mov;
     }
 
     public boolean deleteMovimiento(Integer id){
@@ -46,20 +43,4 @@ public class MovimientosService {
     public ArrayList<MovimientoDinero> obtenerPorEmpresa(Integer id) { //Obtener movimientos teniendo en cuenta el id de la empresa a la que pertencen los empleados que la registraron
         return movimientosRepository.findByEmpresa(id);
     }
-
-
-    public Long obtenerSumaMontos(){
-        return movimientosRepository.SumarMonto();
-    }
-
-
-    public Long MontosPorEmpleado(Integer id){
-        return movimientosRepository.MontosPorEmpleado(id);
-    }
-
-
-    public Long MontosPorEmpresa(Integer id){
-        return movimientosRepository.MontosPorEmpresa(id);
-    }
-
 }
