@@ -26,9 +26,12 @@ public class EmpresaService {
     }
 
 
-    public Empresa saveOrUpdateEmpresa(Empresa empresa){
+    public boolean saveOrUpdateEmpresa(Empresa empresa){
         Empresa emp=empresaRepository.save(empresa);
-        return emp;
+        if (empresaRepository.findById(emp.getId())!=null){
+            return true;
+        }
+        return false;
     }
 
 
@@ -36,7 +39,6 @@ public class EmpresaService {
         empresaRepository.deleteById(id);
 
         if (empresaRepository.findById(id)!=null){
-            return true;
         }
         return false;
     }
