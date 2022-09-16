@@ -34,8 +34,12 @@ public class EmpleadoService {
     }
 
 
-    public Empleado saveOrUpdateEmpleado(Empleado empleado){
-        return empleadoRepository.save(empleado);
+    public boolean saveOrUpdateEmpleado(Empleado empl){
+        Empleado emp=empleadoRepository.save(empl);
+        if (empleadoRepository.findById(emp.getId())!=null){
+            return true;
+        }
+        return false;
     }
 
 
@@ -46,4 +50,5 @@ public class EmpleadoService {
         }
         return true;
     }
+
 }
