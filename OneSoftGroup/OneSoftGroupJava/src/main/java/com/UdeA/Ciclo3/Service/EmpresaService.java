@@ -13,15 +13,18 @@ public class EmpresaService {
     @Autowired
     EmpresaRepository empresaRepository;
 
+
     public List<Empresa> getAllEmpresas(){
         List<Empresa> empresaList = new ArrayList<>();
         empresaRepository.findAll().forEach(empresa -> empresaList.add(empresa));
         return empresaList;
     }
 
+
     public Empresa getEmpresaById(Integer id){
         return empresaRepository.findById(id).get();
     }
+
 
     public boolean saveOrUpdateEmpresa(Empresa empresa){
         Empresa emp=empresaRepository.save(empresa);
@@ -31,13 +34,12 @@ public class EmpresaService {
         return false;
     }
 
+
     public boolean deleteEmpresa(Integer id){
         empresaRepository.deleteById(id);
 
         if (empresaRepository.findById(id)!=null){
-            return true;
         }
         return false;
     }
-
 }
