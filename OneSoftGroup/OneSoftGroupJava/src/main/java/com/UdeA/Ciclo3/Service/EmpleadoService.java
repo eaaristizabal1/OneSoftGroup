@@ -9,44 +9,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-    @Service
-    public class EmpleadoService {
+@Service
+public class EmpleadoService {
 
-        @Autowired
-        EmpleadoRepository empleadoRepository;
-
-
-        public List<Empleado> getAllEmpleado(){
-            List<Empleado> empleadoList= new ArrayList<>();
-            empleadoRepository.findAll().forEach(empleado -> empleadoList.add(empleado));
-            return empleadoList;
-        }
+    @Autowired
+    EmpleadoRepository empleadoRepository;
 
 
-        public Optional<Empleado> getEmpleadoById(Integer id){
+    public List<Empleado> getAllEmpleado(){
+        List<Empleado> empleadoList= new ArrayList<>();
+        empleadoRepository.findAll().forEach(empleado -> empleadoList.add(empleado));
+        return empleadoList;
+    }
 
-            return empleadoRepository.findById(id);
-        }
+
+    public Optional<Empleado> getEmpleadoById(Integer id){
+
+        return empleadoRepository.findById(id);
+    }
 
 
-        public ArrayList<Empleado> obtenerPorEmpresa(Integer id){
-            return empleadoRepository.findByEmpresa(id);
-        }
+    public ArrayList<Empleado> obtenerPorEmpresa(Integer id){
+        return empleadoRepository.findByEmpresa(id);
+    }
 
-        public boolean saveOrUpdateEmpleado(Empleado empl){
-            Empleado emp=empleadoRepository.save(empl);
-            if (empleadoRepository.findById(emp.getId())!=null){
-                return true;
-            }
-            return false;
-        }
 
-        public boolean deleteEmpleado(Integer id){
-            empleadoRepository.deleteById(id);
-            if(this.empleadoRepository.findById(id).isPresent()){
-                return false;
-            }
+    public boolean saveOrUpdateEmpleado(Empleado empl){
+        Empleado emp=empleadoRepository.save(empl);
+        if (empleadoRepository.findById(emp.getId())!=null){
             return true;
         }
-
+        return false;
     }
+
+
+    public boolean deleteEmpleado(Integer id){
+        empleadoRepository.deleteById(id);
+        if(this.empleadoRepository.findById(id).isPresent()){
+            return false;
+        }
+        return true;
+    }
+
+}
