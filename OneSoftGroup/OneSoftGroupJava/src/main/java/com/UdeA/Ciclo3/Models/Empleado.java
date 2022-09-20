@@ -10,15 +10,17 @@ public class Empleado {
     private int id;
     private String nombre;
     private String correo;
-    @ManyToOne
-    @JoinColumn(name = "empresa_id")
+    @ManyToOne(targetEntity = Empresa.class , fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "empresa_id", referencedColumnName = "emp_id" )
     private Empresa empresa;
-    private String rol;
+
+    @Enumerated(EnumType.STRING)
+    private Role rol;
 
     public Empleado() {
     }
 
-    public Empleado(String nombre, String correo, Empresa empresa, String rol) {
+    public Empleado(String nombre, String correo, Empresa empresa, Role rol) {
         this.nombre = nombre;
         this.correo = correo;
         this.empresa = empresa;
@@ -49,11 +51,11 @@ public class Empleado {
         this.correo = correo;
     }
 
-    public String getRol() {
+    public Role getRol() {
         return rol;
     }
 
-    public void setRol(String rol) {
+    public void setRol(Role rol) {
         this.rol = rol;
     }
 

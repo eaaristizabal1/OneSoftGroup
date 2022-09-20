@@ -4,9 +4,12 @@ import com.UdeA.Ciclo3.Models.Empleado;
 import com.UdeA.Ciclo3.Repository.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -34,12 +37,8 @@ public class EmpleadoService {
     }
 
 
-    public boolean saveOrUpdateEmpleado(Empleado empl){
-        Empleado emp=empleadoRepository.save(empl);
-        if (empleadoRepository.findById(emp.getId())!=null){
-            return true;
-        }
-        return false;
+    public Empleado saveOrUpdateEmpleado(Empleado empleado){
+        return empleadoRepository.save(empleado);
     }
 
 
