@@ -13,22 +13,22 @@ public class EmpresaService {
     @Autowired
     EmpresaRepository empresaRepository;
 
+
     public List<Empresa> getAllEmpresas(){
         List<Empresa> empresaList = new ArrayList<>();
         empresaRepository.findAll().forEach(empresa -> empresaList.add(empresa));
         return empresaList;
     }
 
+
     public Empresa getEmpresaById(Integer id){
         return empresaRepository.findById(id).get();
     }
 
-    public boolean saveOrUpdateEmpresa(Empresa empresa){
+
+    public Empresa saveOrUpdateEmpresa(Empresa empresa){
         Empresa emp=empresaRepository.save(empresa);
-        if (empresaRepository.findById(emp.getId())!=null){
-            return true;
-        }
-        return false;
+        return emp;
     }
 
     public boolean deleteEmpresa(Integer id){
