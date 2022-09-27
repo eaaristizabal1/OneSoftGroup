@@ -15,6 +15,7 @@ public class Empleado {
     private Empresa empresa;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role rol;
 
     public Empleado() {
