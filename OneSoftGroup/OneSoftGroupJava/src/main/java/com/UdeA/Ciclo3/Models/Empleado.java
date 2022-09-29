@@ -10,22 +10,39 @@ public class Empleado {
     private int id;
     private String nombre;
     private String correo;
-    @ManyToOne(targetEntity = Empresa.class , fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "empresa_id", referencedColumnName = "emp_id" )
+    @ManyToOne
+    @JoinColumn(name = "empresa_id")
     private Empresa empresa;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role rol;
+    private String rol;
+    private String password;
+    private Boolean estado;
 
     public Empleado() {
     }
 
-    public Empleado(String nombre, String correo, Empresa empresa, Role rol) {
+    public Empleado(String nombre, String correo, Empresa empresa, String rol, String password, Boolean estado) {
         this.nombre = nombre;
         this.correo = correo;
         this.empresa = empresa;
         this.rol = rol;
+        this.password= password;
+        this.estado=estado;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getId() {
@@ -52,11 +69,11 @@ public class Empleado {
         this.correo = correo;
     }
 
-    public Role getRol() {
+    public String getRol() {
         return rol;
     }
 
-    public void setRol(Role rol) {
+    public void setRol(String rol) {
         this.rol = rol;
     }
 
