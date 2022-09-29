@@ -22,7 +22,10 @@
 <body>
 
 <div class="container">
-    <h1> Lista de Empresas OneSoftMarket</h1>
+    <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
+    <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
+    <h1> Lista de Empresas</h1>
+    <!--Dibujamos la tabla-->
     <br><table class="table table-bordered">
         <tr>
             <th>ID</th>
@@ -37,6 +40,8 @@
 
         </tr>
 
+        <!--Llenamos la tabla dibujada-->
+        <!--En nuestro controller, creamos en viewEmpresa un modelo con un atributo llamado emplist donde esta guardada la lista de todas las empresas-->
         <tr th:each="empresa : ${emplist}">
             <td th:text="${empresa.id}"></td>
             <td th:text="${empresa.nombre}"></td>
@@ -50,9 +55,11 @@
         </tr>
     </table>
 
+    <!-- vamos a crear un boton que sirva para agregar nuevas empresas -->
     <button type="button" class="btn btn-info"><a th:href="@{/AgregarEmpresa}">Agregar Nueva Empresa</a></button>
     <br><br>
     <button type="button" class="btn btn-primary"><a th:href="@{/VerEmpleados}">Ver lista de Empleados</a></button>
+
 </div>
 
 <script th:inline="javascript">

@@ -20,6 +20,9 @@
 <body>
 
 <div class="container">
+  <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
+  <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
+
   <h1> Modifique aqui los datos del Movimiento</h1>
   <br>
   <!--Crear formulario para cambiar los datos del movimiento y guardarlo en el objeto mov -->
@@ -62,16 +65,16 @@
       </div>
     </div>
 
-    <!--Campo para empleado (usuario responsable)-->
+    <!--Campo para usuario-->
     <div class="row">
       <div class="form-group col-md-12">
-        <label class="col-md-3" for="usuario">Empleado responsable:</label>
+        <label class="col-md-3" for="usuario">Responsable del movimiento:</label>
         <div class="col-md-6">
-          <select th:field="*{usuario}" class="form-control" id="usuario" required="required">
-            <option th:each="empleado : ${emplelist}" th:text="${empleado.nombre}" th:value="${empleado.id}"></option>
+          <select th:field="*{usuario}" class="form-control" id="usuario" required="required" readonly>
+            <option th:value=*{usuario.id} th:text=*{usuario.correo}></option>
           </select>
-        </div>
       </div>
+    </div>
     </div>
 
     <!--Campo para fecha-->
